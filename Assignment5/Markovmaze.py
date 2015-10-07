@@ -91,17 +91,17 @@ while(delta > epsilon*((1-discount)/discount)):
 					#print "Delta is: ", delta
 					#print "The upper bound is: ", epsilon*((1-discount)/discount)
 					#print "i is: ", i, " j is: ", j
-	print "Iteration count: ", counter
-	for x in range(8):
-		for y in range(10):
-			if(location_to_terrain[(x,y)] != 2):
-				print "(",x,",",y,")  ", (utility[(x,y)]), " Direction: ", direction[(x,y)]
+	#print "Iteration count: ", counter
+	#for x in range(8):
+	#	for y in range(10):
+	#		if(location_to_terrain[(x,y)] != 2):
+	#			print "(",x,",",y,")  ", (utility[(x,y)]), " Direction: ", direction[(x,y)]
 
 
 current = [7,0]
 totalutil = utility[tuple(current)]
 while(current != [0,9]):
-	print direction[tuple(current)]
+	print "Current location is: ", current, " current utility is: ", utility[tuple(current)]
 	#up
 	if(direction[tuple(current)] == 0):
 		current = [current[0] - 1, current[1]]
@@ -116,5 +116,5 @@ while(current != [0,9]):
 		current = [current[0], current[1] - 1]
 	totalutil += utility[tuple(current)]
 
-print totalutil
+print "Current location is: ", current, " current utility is: ", utility[tuple(current)]
 
