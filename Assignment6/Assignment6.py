@@ -349,18 +349,60 @@ def calcConditional(currGraph, arg, given):
 				print currGraph["xray"].conditionals["c"]
 				return currGraph["xray"].conditionals["c"]
 	
-def parseString(nodenames):
-	nodeList = []
-	i = 0
-	while (i < len(nodenames)):
-		if nodenames[i] == "~":
-			i = i + 1
-			nodename = nodenames[i-1] + nodenames[1]
-			nodeList.append(nodename)
-		else:
-			nodeList.append(nodename)
-		i += 1
-	return nodeList
+def calcJoint(currGraph, nodenames):
+	x = currGraph["xray"]
+	c = currGraph["cancer"]
+	s = currGraph["smoker"]
+	p = currGraph["pollution"]
+	d = currGraph["dyspnoea"]
+	jointDistribution = []
+	print nodenames
+	if (nodenames == "psc") or (nodenames == "pcs") or (nodenames == "spc") or (nodenames =="scp") or (nodenames =="csp") or (nodenames == "cps"):
+		prob = c.conditionals["ps"]*p.marginal * s.marginal
+		print prob
+		return prob
+	elif (nodenames == "ps~c") or (nodenames == "p~cs") or (nodenames == "sp~c") or (nodenames =="s~cp") or (nodenames =="~csp") or (nodenames == "~cps"):
+		prob = (1-c.conditionals["ps"])*p.marginal * s.marginal
+		print prob
+		return prob
+	elif (nodenames == "p~sc") or (nodenames == "pc~s") or (nodenames == "~spc") or (nodenames =="~scp") or (nodenames =="c~sp") or (nodenames == "cp~s"):
+		prob = c.conditionals["p~s"] * p.marginal * (1-s.marginal)
+		print prob
+		return prob
+	elif (nodenames == "~psc") or (nodenames == "~pcs") or (nodenames == "s~pc") or (nodenames =="sc~p") or (nodenames =="cs~p") or (nodenames == "c~ps"):
+		prob = c.conditionals["~ps"] * (1-p.marginal) * s.marginal
+		print prob
+		return prob
+	elif (nodenames == "p~s~c") or (nodenames == "p~c~s") or (nodenames == "~sp~c") or (nodenames =="~s~cp") or (nodenames =="~c~sp") or (nodenames == "c~p~s"):
+		prob = (1-c.conditionals["p~s"]) * p.marginal * (1-s.marginal)
+		print prob
+		return prob
+	elif (nodenames == "~ps~c" or nodenames == "~p~cs" or nodenames == "s~p~c" or nodenames =="s~c~p" or nodenames =="~cs~p" or nodenames == "~c~ps"):
+		prob = (1-c.conditionals["~ps"]) * (1-p.marginal) * s.marginal
+		print prob
+		return prob
+	elif (nodenames == "~p~sc" or nodenames == "~pc~s" or nodenames == "~s~pc" or nodenames =="~sc~p" or nodenames =="c~s~p" or nodenames == "c~p~s"):
+		prob = c.conditionals["~p~s"] * (1-p.marginal) * (1-s.marginal)
+		print prob
+		return prob
+	elif (nodenames == "~p~s~c" or nodenames == "~p~c~s" or nodenames == "~s~p~c" or nodenames == "~s~c~p" or nodenames == "~c~s~p" or nodenames == "~c~p~s"):
+		prob = (1-c.conditionals["~p~s"]) * (1-p.marginal) * (1-s.marginal)
+		print prob
+		return prob
+	
+	if nodenames == "SPC" or nodenames == "SCP" or nodenames == "PSC" or nodenames == "PCS" or nodenames == "CSP" or nodenames == "CPS":
+		jointDistribution.append(c.conditionals["ps"]*p.marginal*s.marginal)
+		jointDistribution.append((1-c.conditionals["ps"])*p.marginal*s.marginal)
+		jointDistribution.append((1-c.conditionals["p~s"])*p.marginal*(1-s.marginal))
+		jointDistribution.append(c.conditionals["p~s"]*p.marginal*(1-s.marginal))
+		jointDistribution.append((1-c.conditionals["~p~s"])*(1-p.marginal)*(1-s.marginal))
+		jointDistribution.append(c.conditionals["~ps"]*(1-p.marginal)*s.marginal)
+		jointDistribution.append(c.conditionals["~p~s"]*(1-p.marginal)*(1-s.marginal))
+		jointDistribution.append((1-c.conditionals["~ps"])*(1-p.marginal)*s.marginal)
+		print jointDistribution
+		return jointDistribution
+	
+	
 
 def main():
 	Graph = initGraph()
