@@ -1,4 +1,8 @@
+import sys
+functionCall = sys.argv[1]
 def emissionProbability():
+	if functionCall == "e":
+		print("Emission Probability")
 	countingDictionary = {}
 	with open("typos20.data","r") as textfile:
 		for a in textfile.readlines():
@@ -17,11 +21,14 @@ def emissionProbability():
 			if t1 == t2:
 				denCount = denCount + countingDictionary[i2]
 		probabilityDictionary[i] = numCount/denCount
-		#print(i,countingDictionary[i])
-		#print(i,probabilityDictionary[i])
+		if functionCall == "e":
+			print(i,countingDictionary[i])
+			print(i,probabilityDictionary[i])
 	return probabilityDictionary
 
 def transitionProbability():
+	if functionCall == "t":
+		print("Transition Probability")
 	countingDictionary = {}
 	fileStringArray = []
 	with open("typos20.data","r") as textfile:
@@ -47,11 +54,13 @@ def transitionProbability():
 			if t1 == t2:
 				denCount = denCount + countingDictionary[i2]
 		probabilityDictionary[i] = numCount/denCount
-		#print(i,countingDictionary[i])
-		#print(i,probabilityDictionary[i])
+		if functionCall == "t":
+			print(i,countingDictionary[i])
+			print(i,probabilityDictionary[i])
 	return probabilityDictionary
 
 def probabilityDistribution():
+	print("Initial Probability Distribution:")
 	emissionProbability2 = emissionProbability()
 	transitionProbability2 = transitionProbability()
 	with open("typos20.data","r") as textfile:
@@ -80,6 +89,9 @@ def probabilityDistribution():
 		#	print(i,transitionProbability2[i])
 		#	print(counter)
 
-emissionProbability()
-transitionProbability()
-probabilityDistribution()
+if(functionCall == 'e'):
+	emissionProbability()
+elif(functionCall == 't'):
+	transitionProbability()
+elif(functionCall == 'p'):
+	probabilityDistribution()
